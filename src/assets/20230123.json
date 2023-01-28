@@ -1,0 +1,621 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:44:45.379Z",
+        "provider": "network",
+        "time_long": 1674503085379,
+        "accuracy": 14.878,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053818, 37.3855599] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:45:46.934Z",
+        "provider": "network",
+        "time_long": 1674503146934,
+        "accuracy": 14.69,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053618, 37.3855956] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:46:48.752Z",
+        "provider": "network",
+        "time_long": 1674503208752,
+        "accuracy": 15.538,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053686, 37.3855867] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:47:50.004Z",
+        "provider": "network",
+        "time_long": 1674503270004,
+        "accuracy": 15.372,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053618, 37.3855873] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:48:52.056Z",
+        "provider": "network",
+        "time_long": 1674503332056,
+        "accuracy": 18.365,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053697, 37.3855679] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:49:53.393Z",
+        "provider": "network",
+        "time_long": 1674503393393,
+        "accuracy": 15.864,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053711, 37.3855884] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:50:54.936Z",
+        "provider": "network",
+        "time_long": 1674503454936,
+        "accuracy": 14.58,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053619, 37.385601] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:51:55.844Z",
+        "provider": "network",
+        "time_long": 1674503515844,
+        "accuracy": 13.933,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053691, 37.3856025] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:52:57.384Z",
+        "provider": "network",
+        "time_long": 1674503577384,
+        "accuracy": 14.173,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053638, 37.3856024] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:53:59.530Z",
+        "provider": "network",
+        "time_long": 1674503639530,
+        "accuracy": 14.606,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005364, 37.3856012] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:55:01.005Z",
+        "provider": "network",
+        "time_long": 1674503701005,
+        "accuracy": 14.567,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053607, 37.3856014] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:56:25.458Z",
+        "provider": "network",
+        "time_long": 1674503785458,
+        "accuracy": 15.797,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053653, 37.3856019] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:57:27.607Z",
+        "provider": "network",
+        "time_long": 1674503847607,
+        "accuracy": 14.397,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053636, 37.3856056] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:58:28.543Z",
+        "provider": "network",
+        "time_long": 1674503908543,
+        "accuracy": 15.355,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005381, 37.3855805] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T19:59:29.985Z",
+        "provider": "network",
+        "time_long": 1674503969985,
+        "accuracy": 13.999,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053631, 37.3856019] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:00:31.422Z",
+        "provider": "network",
+        "time_long": 1674504031422,
+        "accuracy": 15.659,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053733, 37.3856022] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:01:32.966Z",
+        "provider": "network",
+        "time_long": 1674504092966,
+        "accuracy": 13.96,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005365, 37.3856059] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:02:34.403Z",
+        "provider": "network",
+        "time_long": 1674504154403,
+        "accuracy": 14.577,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053612, 37.3855984] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:03:35.945Z",
+        "provider": "network",
+        "time_long": 1674504215945,
+        "accuracy": 15.849,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053677, 37.3856023] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:04:38.016Z",
+        "provider": "network",
+        "time_long": 1674504278016,
+        "accuracy": 14.167,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005364, 37.3856068] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:05:39.680Z",
+        "provider": "network",
+        "time_long": 1674504339680,
+        "accuracy": 13.909,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053639, 37.3856055] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:06:41.212Z",
+        "provider": "network",
+        "time_long": 1674504401212,
+        "accuracy": 13.625,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053601, 37.3856048] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:07:42.647Z",
+        "provider": "network",
+        "time_long": 1674504462647,
+        "accuracy": 15.122,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005365, 37.3855978] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:08:44.078Z",
+        "provider": "network",
+        "time_long": 1674504524078,
+        "accuracy": 15.395,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053647, 37.3855973] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:09:44.993Z",
+        "provider": "network",
+        "time_long": 1674504584993,
+        "accuracy": 13.27,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053643, 37.3856121] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:10:46.964Z",
+        "provider": "network",
+        "time_long": 1674504646964,
+        "accuracy": 20.1,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053606, 37.3856044] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:11:48.428Z",
+        "provider": "network",
+        "time_long": 1674504708428,
+        "accuracy": 15.821,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005361, 37.3856014] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:12:49.968Z",
+        "provider": "network",
+        "time_long": 1674504769968,
+        "accuracy": 14.96,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053628, 37.3855973] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:13:51.616Z",
+        "provider": "network",
+        "time_long": 1674504831616,
+        "accuracy": 20.0,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053622, 37.3855987] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:14:53.349Z",
+        "provider": "network",
+        "time_long": 1674504893349,
+        "accuracy": 16.255,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053797, 37.3855818] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:16:26.213Z",
+        "provider": "network",
+        "time_long": 1674504986213,
+        "accuracy": 15.366,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053653, 37.3855975] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:17:27.563Z",
+        "provider": "network",
+        "time_long": 1674505047563,
+        "accuracy": 16.205,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005373, 37.3855807] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:18:28.471Z",
+        "provider": "network",
+        "time_long": 1674505108471,
+        "accuracy": 15.984,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053694, 37.385594] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:19:30.569Z",
+        "provider": "network",
+        "time_long": 1674505170569,
+        "accuracy": 17.369,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053871, 37.3855714] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:20:32.307Z",
+        "provider": "network",
+        "time_long": 1674505232307,
+        "accuracy": 15.081,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053642, 37.3856057] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:21:33.844Z",
+        "provider": "network",
+        "time_long": 1674505293844,
+        "accuracy": 20.1,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053614, 37.3855991] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:22:35.279Z",
+        "provider": "network",
+        "time_long": 1674505355279,
+        "accuracy": 14.137,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.00536, 37.3856033] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:23:36.698Z",
+        "provider": "network",
+        "time_long": 1674505416698,
+        "accuracy": 20.0,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053603, 37.3856038] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:24:38.348Z",
+        "provider": "network",
+        "time_long": 1674505478348,
+        "accuracy": 14.724,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053619, 37.3856012] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:25:39.797Z",
+        "provider": "network",
+        "time_long": 1674505539797,
+        "accuracy": 14.46,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005364, 37.3856049] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:26:41.480Z",
+        "provider": "network",
+        "time_long": 1674505601480,
+        "accuracy": 14.354,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005361, 37.3856039] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:27:42.999Z",
+        "provider": "network",
+        "time_long": 1674505662999,
+        "accuracy": 16.272,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053656, 37.3856014] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:28:44.425Z",
+        "provider": "network",
+        "time_long": 1674505724425,
+        "accuracy": 15.161,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053686, 37.3855976] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:29:46.278Z",
+        "provider": "network",
+        "time_long": 1674505786278,
+        "accuracy": 17.183,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053665, 37.3855926] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:30:47.714Z",
+        "provider": "network",
+        "time_long": 1674505847714,
+        "accuracy": 20.1,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053624, 37.3856001] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:31:49.263Z",
+        "provider": "network",
+        "time_long": 1674505909263,
+        "accuracy": 15.905,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.005369, 37.3855977] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:32:50.364Z",
+        "provider": "network",
+        "time_long": 1674505970364,
+        "accuracy": 14.669,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053652, 37.3856018] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:33:51.903Z",
+        "provider": "network",
+        "time_long": 1674506031903,
+        "accuracy": 15.466,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053686, 37.3855972] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:34:53.972Z",
+        "provider": "network",
+        "time_long": 1674506093972,
+        "accuracy": 14.871,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053627, 37.3856018] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:35:55.437Z",
+        "provider": "network",
+        "time_long": 1674506155437,
+        "accuracy": 14.972,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053611, 37.3856008] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:36:56.953Z",
+        "provider": "network",
+        "time_long": 1674506216953,
+        "accuracy": 14.374,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053606, 37.3856054] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:37:58.536Z",
+        "provider": "network",
+        "time_long": 1674506278536,
+        "accuracy": 15.268,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053616, 37.3855985] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:39:00.140Z",
+        "provider": "network",
+        "time_long": 1674506340140,
+        "accuracy": 28.1,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053613, 37.3856] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:40:01.678Z",
+        "provider": "network",
+        "time_long": 1674506401678,
+        "accuracy": 20.0,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053603, 37.3856045] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:41:03.231Z",
+        "provider": "network",
+        "time_long": 1674506463231,
+        "accuracy": 14.027,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053615, 37.3856056] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "time": "2023-01-23T20:42:04.875Z",
+        "provider": "network",
+        "time_long": 1674506524875,
+        "accuracy": 14.544,
+        "altitude": 58.20000076293945
+      },
+      "geometry": { "type": "Point", "coordinates": [-6.0053646, 37.385608] }
+    }
+  ]
+}
