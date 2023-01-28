@@ -81,6 +81,13 @@ let osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
   attribution: "© OpenStreetMap",
 });
+let icon = L.divIcon({
+  className: "custom-div-icon",
+  html: "<div class='marker-pin'></div>",
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
+});
+
 export default {
   components: {
     uploadOutline,
@@ -161,7 +168,7 @@ export default {
     getMarkers() {
       let markers = [];
       this.coordinates.forEach((coord, i) => {
-        let marker = L.marker(coord).addTo(map);
+        let marker = L.marker(coord, { icon: icon }).addTo(map);
         let popupInfo = `${this.geojson.features[i].properties.time}<br>
         ${coord}`;
         markers.push(
@@ -297,5 +304,22 @@ export default {
   position: fixed;
   width: calc(100vw - 1rem);
   background-color: white;
+}
+.marker-pin {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background: white;
+  outline: rgba(0, 0, 0, 25%) solid 2px;
+  position: absolute;
+}
+.marker-pin::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  margin: 7px 0 0 7px;
+  background: black;
+  position: absolute;
+  border-radius: 50%;
 }
 </style>
