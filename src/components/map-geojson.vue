@@ -47,6 +47,9 @@
   </div>
   <div v-if="infoPopup" class="no-scrollbar popup bg-white">
     <div class="popup-top-bar flex content-between">
+      <span class="flex-grow self-center pl-2 text-2xl">{{
+        geojson.features.length
+      }}</span>
       <span class="flex-grow self-center pl-2 text-2xl">Marker info</span>
       <button @click="toggleInfoPopup()" class="disabled p-1 bg-white hover">
         <close size="36"></close>
@@ -54,13 +57,20 @@
     </div>
     <div class="pt-9">
       <div
-        class="px-4 py-2"
+        class="flex flex-row w-full px-4 py-2"
         v-for="(feature, index) in geojson.features"
         :key="index"
         :id="'item' + index"
       >
-        {{ feature.properties }}
-        {{ feature.geometry.coordinates }}
+        <div class="self-center text-center pr-2">
+          {{ feature.properties.time }}
+        </div>
+        <div class="flex-col px-2">
+          <div>{{ feature.properties.provider }}</div>
+          <div>{{ feature.properties.accuracy }}</div>
+          <div>{{ feature.properties.altitude.toFixed(2) }}</div>
+        </div>
+        <div class="pl-2">{{ feature.geometry.coordinates }}</div>
       </div>
     </div>
   </div>
@@ -84,8 +94,8 @@ let osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 let icon = L.divIcon({
   className: "custom-div-icon",
   html: "<div class='marker-pin'></div>",
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
 });
 
 export default {
@@ -159,7 +169,7 @@ export default {
     },
     getLine() {
       let polyline = L.polyline(this.coordinates, {
-        weight: 10,
+        weight: 7,
         smoothFactor: 3,
       }).addTo(map);
       map.fitBounds(polyline.getBounds());
@@ -197,8 +207,9 @@ export default {
       }
     },
     handleFile(event) {
-      let json = JSON.parse(event.target.result);
-      this.changeGeojsonData(json);
+      let geojson = JSON.parse(event.target.result);
+      let cleaned = this.denoiseGeojson(geojson);
+      this.changeGeojsonData(cleaned);
     },
     changeGeojsonData(data) {
       this.geojson = data;
@@ -206,6 +217,26 @@ export default {
       this.coordinates = features.map((feature) =>
         feature.geometry.coordinates.reverse()
       );
+    },
+    denoiseGeojson(data, threshold = 5) {
+      let geojson = data;
+      let features = cloneDeep(geojson.features);
+      let cleanedFeatures = [];
+      features.forEach((feature, i) => {
+        let coord = feature.geometry.coordinates;
+        if (i) {
+          let oldCoord = features[i - 1].geometry.coordinates;
+          let distance = map.distance(oldCoord, coord);
+          let valid = distance > threshold;
+          if (valid) {
+            cleanedFeatures.push(feature);
+          }
+        } else {
+          cleanedFeatures.push(feature);
+        }
+      });
+      geojson.features = cleanedFeatures;
+      return geojson;
     },
     toggleInfoPopup() {
       this.infoPopup = !this.infoPopup;
@@ -306,8 +337,8 @@ export default {
   background-color: white;
 }
 .marker-pin {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   border-radius: 100%;
   background: white;
   outline: rgba(0, 0, 0, 25%) solid 2px;
@@ -315,9 +346,9 @@ export default {
 }
 .marker-pin::after {
   content: "";
-  width: 10px;
-  height: 10px;
-  margin: 7px 0 0 7px;
+  width: 6px;
+  height: 6px;
+  margin: 5px 0 0 5px;
   background: black;
   position: absolute;
   border-radius: 50%;
