@@ -94,7 +94,7 @@ import crosshairsGps from "./icons/crosshairsGps.vue";
 import crosshairs from "./icons/crosshairs.vue";
 import close from "./icons/close.vue";
 import cloneDeep from "lodash/cloneDeep";
-import mapMarkerMultipleOutline from "./icons/MapMarkerMultipleOutline.vue";
+import mapMarkerMultipleOutline from "./icons/mapMarkerMultipleOutline.vue";
 let map;
 let osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   minZoom: 2,
