@@ -10,50 +10,55 @@
   </div>
   <div class="inline-flex flex-col z-1000 absolute top-3 right-3">
     <button
-      :disabled="!this.geojson"
+      :disabled="!geojson"
       @click="toggleInfoPopup()"
-      class="disabled leaflet-borders p-1 mb-2 bg-white hover"
+      class="onDisabled leaflet-borders p-1 mb-2 bg-white hover"
     >
       <database-marker-outline size="36"></database-marker-outline>
     </button>
     <button
-      :disabled="this.bool.locating"
-      @click="this.locate()"
-      class="disabled leaflet-borders p-2 mb-2 bg-white hover"
-    >
-      <crosshairs v-if="this.bool.locating" size="30"></crosshairs>
-      <crosshairs-gps v-else size="30"></crosshairs-gps>
-    </button>
-    <button
-      :disabled="!this.geojson"
-      @click="this.toggleAllMarkers()"
-      class="disabled leaflet-borders p-2 bg-white hover"
-      :class="{ disabled: !this.bool.allMarkers }"
+      :disabled="!geojson"
+      @click="toggleAllMarkers()"
+      class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
+      :class="{ disabled: !bool.allMarkers }"
     >
       <map-marker-multiple-outline size="30"></map-marker-multiple-outline>
     </button>
+    <button
+      :disabled="bool.locating"
+      @click="toggleLocationCircle()"
+      class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
+    >
+      <crosshairs v-if="bool.locating || !bool.location" size="30"></crosshairs>
+      <crosshairs-gps v-else size="30"></crosshairs-gps>
+    </button>
+    <input
+      type="text"
+      pattern="\d*"
+      maxlength="2"
+      v-model="filterDistanceInput"
+      @blur="evaluateDistanceFilterInput()"
+      class="leaflet-borders onDisabled filter-input"
+    />
   </div>
 
   <div class="inline-flex toolbar-bottom leaflet-borders z-1000 bg-white p-3">
     <div class="self-center w-full mr-4">
       <input
-        :disabled="!this.geojson"
+        :disabled="!geojson"
         type="range"
         :min="0"
-        :max="this.geojson ? this.geojson.features.length - 1 : 0"
-        v-model="this.rangeValue"
+        :max="geojson ? geojson.features.length - 1 : 0"
+        v-model="rangeValue"
         class="slider"
         id="myRange"
       />
     </div>
-    <button
-      @click="openFilePicker"
-      class="disabled leaflet-borders p-1 bg-white hover"
-    >
+    <button @click="openFilePicker" class="leaflet-borders p-1 bg-white hover">
       <upload-outline size="36"></upload-outline>
     </button>
   </div>
-  <div v-if="this.bool.infoPopup" class="no-scrollbar popup bg-white">
+  <div v-if="bool.infoPopup" class="no-scrollbar popup bg-white">
     <div class="popup-top-bar flex content-between">
       <span class="flex-grow self-center pl-2 text-2xl">{{
         geojson.features.length
@@ -65,7 +70,7 @@
     </div>
     <div class="pt-9">
       <div
-        :class="{ 'bg-gray-100': index != this.rangeValue }"
+        :class="{ 'bg-gray-100': index != rangeValue }"
         class="flex flex-row w-full px-4 py-2"
         v-for="(feature, index) in geojson.features"
         :key="index"
@@ -95,12 +100,7 @@ import crosshairs from "./icons/crosshairs.vue";
 import close from "./icons/close.vue";
 import cloneDeep from "lodash/cloneDeep";
 import mapMarkerMultipleOutline from "./icons/mapMarkerMultipleOutline.vue";
-let map;
-let osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  minZoom: 2,
-  maxZoom: 19,
-  attribution: "© OpenStreetMap",
-});
+
 let icon_marker = L.divIcon({
   className: "custom-div-icon",
   html: "<div class='marker-pin'></div>",
@@ -126,6 +126,13 @@ let icon_path_end = L.divIcon({
   iconAnchor: [8, 8],
 });
 
+let map;
+let osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  minZoom: 2,
+  maxZoom: 19,
+  attribution: "© OpenStreetMap",
+});
+
 let polyline = null;
 let markers = [];
 let marker = null;
@@ -149,7 +156,9 @@ export default {
       coordinates: null,
       rangeValue: 0,
       filterDistance: 5,
+      filterDistanceInput: 5,
       bool: {
+        location: true,
         locating: false,
         infoPopup: false,
         allMarkers: false,
@@ -175,6 +184,11 @@ export default {
         this.scrollToItem(i);
       }
     },
+    filterDistanceInput(newData) {
+      if (newData) {
+        this.handle;
+      }
+    },
   },
   computed: {},
   mounted() {
@@ -185,20 +199,30 @@ export default {
   },
   methods: {
     locate() {
-      this.bool.locating = true;
-      map.locate({ setView: true, maxZoom: 16 });
       const self = this;
       function onLocationFound(e) {
         self.bool.locating = false;
         self.addCircle(e);
       }
-      map.on("locationfound", onLocationFound);
-
       function onLocationError(e) {
         self.bool.locating = false;
+        self.bool.location = false;
         alert(e.message);
       }
+
+      this.bool.locating = true;
+      map.locate({ setView: true, maxZoom: 16, watch: true });
+      map.on("locationfound", onLocationFound);
       map.on("locationerror", onLocationError);
+    },
+    toggleLocationCircle() {
+      this.bool.location = !this.bool.location;
+      if (this.bool.location) {
+        this.locate();
+      } else {
+        this.removeCircle();
+        map.stopLocate();
+      }
     },
     addCircle(e) {
       if (locationCircle) {
@@ -207,7 +231,7 @@ export default {
       let radius = e.accuracy;
       locationCircle = L.circle(e.latlng, radius)
         .addTo(map)
-        .bindPopup("You are within this " + radius + " meters radius");
+        .bindPopup("Accuracy: " + radius.toFixed(2));
     },
     removeCircle() {
       locationCircle.remove();
@@ -215,7 +239,7 @@ export default {
     },
     addPath() {
       polyline = L.polyline(this.coordinates, {
-        weight: 7,
+        weight: 5,
         smoothFactor: 3,
       }).addTo(map);
       map.fitBounds(polyline.getBounds());
@@ -226,11 +250,12 @@ export default {
     },
     getPopupInfo(i) {
       let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      let locale = Intl.DateTimeFormat().resolvedOptions().locale;
       let dateTime = new Date(this.geojson.features[i].properties.time_long);
-      let date = dateTime.toLocaleDateString("en-US", {
+      let date = dateTime.toLocaleDateString(locale, {
         timeZone: tz,
       });
-      let time = dateTime.toLocaleTimeString("it-IT", {
+      let time = dateTime.toLocaleTimeString(locale, {
         timeZone: tz,
       });
       return `${time}<br/>${date}`;
@@ -301,7 +326,6 @@ export default {
     handleFilePicker(event) {
       if (event.target.files.length) {
         let file = event.target.files[0];
-
         let reader = new FileReader();
         reader.onload = this.handleFile;
         reader.readAsText(file);
@@ -310,6 +334,7 @@ export default {
     handleFile(event) {
       let geojson = JSON.parse(event.target.result);
       this.changeGeojsonData(geojson);
+      this.$refs.fileInput.value = "";
     },
     changeGeojsonData(geojson) {
       this.originalGeojson = cloneDeep(geojson);
@@ -342,6 +367,17 @@ export default {
       geojson.features = cleanedFeatures;
       return geojson;
     },
+    evaluateDistanceFilterInput() {
+      if (!this.filterDistanceInput) {
+        this.filterDistanceInput = this.filterDistance;
+        return;
+      }
+      if (this.filterDistanceInput != this.filterDistance) {
+        this.filterDistance = this.filterDistanceInput;
+        if (!this.geojson) return;
+        this.changeGeojsonData(this.originalGeojson);
+      }
+    },
     toggleInfoPopup() {
       this.bool.infoPopup = !this.bool.infoPopup;
     },
@@ -361,7 +397,7 @@ export default {
 .hover:hover {
   background-color: #e5e7eb;
 }
-.disabled:disabled {
+.onDisabled:disabled {
   background-color: #d3d3d3;
 }
 .disabled {
@@ -374,6 +410,18 @@ export default {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.filter-input::-webkit-outer-spin-button,
+.filter-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.filter-input {
+  -moz-appearance: textfield;
+  width: 46px;
+  height: 46px;
+  font-size: 1.5rem;
+  text-align: center;
 }
 .slider {
   -webkit-appearance: none;
