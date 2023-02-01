@@ -22,7 +22,7 @@
       class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
       :class="{ disabled: !bool.allMarkers }"
     >
-      <map-marker-multiple-outline size="30"></map-marker-multiple-outline>
+      <map-marker-path size="30"></map-marker-path>
     </button>
     <button
       :disabled="bool.locating"
@@ -31,6 +31,17 @@
     >
       <crosshairs v-if="bool.locating || !bool.location" size="30"></crosshairs>
       <crosshairs-gps v-else size="30"></crosshairs-gps>
+    </button>
+    <button
+      :disabled="bool.locating || !bool.location"
+      @click="toggleLocationFollow()"
+      class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
+    >
+      <map-marker-radius-outline
+        v-if="bool.locationFollow"
+        size="30"
+      ></map-marker-radius-outline>
+      <map-marker-outline v-else size="30"></map-marker-outline>
     </button>
     <input
       type="text"
@@ -60,10 +71,10 @@
   </div>
   <div v-if="bool.infoPopup" class="no-scrollbar popup bg-white">
     <div class="popup-top-bar flex content-between">
-      <span class="flex-grow self-center pl-2 text-2xl">{{
-        geojson.features.length
-      }}</span>
-      <span class="flex-grow self-center pl-2 text-2xl">Marker info</span>
+      <span class="flex-grow self-center pl-2 text-2xl"
+        >{{ geojson.features.length }} points</span
+      >
+      <span class="flex-grow self-center pl-2 text-xs">aprx. distance: {{ distanceTraveled.toFixed(2) }}m <br/> avg. accuracy: {{ avgAccuracy.toFixed(2) }}</span>
       <button @click="toggleInfoPopup()" class="disabled p-1 bg-white hover">
         <close size="36"></close>
       </button>
@@ -76,15 +87,25 @@
         :key="index"
         :id="'item' + index"
       >
-        <div class="self-center text-center pr-2">
-          {{ feature.properties.time }}
+        <div class="flex-grow self-center text-center pr-2">
+          {{ formatDate(feature.properties.time_long).time }}
+          <br />
+          {{ formatDate(feature.properties.time_long).date }}
         </div>
-        <div class="flex-col px-2">
-          <div>{{ feature.properties.provider }}</div>
-          <div>{{ feature.properties.accuracy }}</div>
-          <div>{{ feature.properties.altitude.toFixed(2) }}</div>
+
+        <div class="flex-grow self-center flex-col px-2">
+          <div
+            v-for="(coord, i) in feature.geometry.coordinates"
+            :key="coord + index"
+          >
+            {{ i ? `LNG: ${coord}` : `LAT: ${coord}` }}
+          </div>
         </div>
-        <div class="pl-2">{{ feature.geometry.coordinates }}</div>
+        <div class="flex-grow self-center flex-col pl-2">
+          <div>Prov: {{ feature.properties.provider }}</div>
+          <div>Accu: {{ feature.properties.accuracy.toFixed(2) }}</div>
+          <div>Alt: {{ feature.properties.altitude.toFixed(2) }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -99,8 +120,12 @@ import crosshairsGps from "./icons/crosshairsGps.vue";
 import crosshairs from "./icons/crosshairs.vue";
 import close from "./icons/close.vue";
 import cloneDeep from "lodash/cloneDeep";
-import mapMarkerMultipleOutline from "./icons/mapMarkerMultipleOutline.vue";
+import mapMarkerPath from "./icons/mapMarkerPath.vue";
+import mapMarkerOutline from "./icons/mapMarkerOutline.vue";
+import mapMarkerRadiusOutline from "./icons/mapMarkerRadiusOutline.vue";
 
+let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+let locale = Intl.DateTimeFormat().resolvedOptions().locale;
 let icon_marker = L.divIcon({
   className: "custom-div-icon",
   html: "<div class='marker-pin'></div>",
@@ -147,18 +172,23 @@ export default {
     crosshairsGps,
     crosshairs,
     close,
-    mapMarkerMultipleOutline,
+    mapMarkerPath,
+    mapMarkerOutline,
+    mapMarkerRadiusOutline,
   },
   data() {
     return {
       originalGeojson: null,
       geojson: null,
       coordinates: null,
+      distanceTraveled: null,
+      avgAccuracy: null,
       rangeValue: 0,
       filterDistance: 5,
       filterDistanceInput: 5,
       bool: {
         location: true,
+        locationFollow: true,
         locating: false,
         infoPopup: false,
         allMarkers: false,
@@ -190,7 +220,20 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    formatDate() {
+      return (ts) => {
+        let dateTime = new Date(ts);
+        let date = dateTime.toLocaleDateString(locale, {
+          timeZone: tz,
+        });
+        let time = dateTime.toLocaleTimeString(locale, {
+          timeZone: tz,
+        });
+        return { date, time };
+      };
+    },
+  },
   mounted() {
     map = L.map("map", {
       layers: [osm],
@@ -211,7 +254,11 @@ export default {
       }
 
       this.bool.locating = true;
-      map.locate({ setView: true, maxZoom: 16, watch: true });
+      map.locate({
+        setView: true,
+        maxZoom: 16,
+        watch: this.bool.locationFollow,
+      });
       map.on("locationfound", onLocationFound);
       map.on("locationerror", onLocationError);
     },
@@ -221,6 +268,14 @@ export default {
         this.locate();
       } else {
         this.removeCircle();
+        map.stopLocate();
+      }
+    },
+    toggleLocationFollow() {
+      this.bool.locationFollow = !this.bool.locationFollow;
+      if (this.bool.locationFollow) {
+        this.locate();
+      } else {
         map.stopLocate();
       }
     },
@@ -249,8 +304,6 @@ export default {
       polyline = null;
     },
     getPopupInfo(i) {
-      let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      let locale = Intl.DateTimeFormat().resolvedOptions().locale;
       let dateTime = new Date(this.geojson.features[i].properties.time_long);
       let date = dateTime.toLocaleDateString(locale, {
         timeZone: tz,
@@ -338,15 +391,17 @@ export default {
     },
     changeGeojsonData(geojson) {
       this.originalGeojson = cloneDeep(geojson);
-      let cleaned = this.denoiseGeojson(geojson);
+      let cleaned = this.denoiseGeojson(geojson, this.filterDistance);
       this.geojson = cloneDeep(cleaned);
       let features = cloneDeep(cleaned.features);
       this.coordinates = features.map((feature) =>
         feature.geometry.coordinates.reverse()
       );
+      let travelObject = this.getTraveledDistance(geojson);
+      this.distanceTraveled = travelObject.distance;
+      this.avgAccuracy = travelObject.avgAccuracy;
     },
-    denoiseGeojson(data) {
-      let threshold = this.filterDistance;
+    denoiseGeojson(data, threshold) {
       let geojson = data;
       let features = cloneDeep(geojson.features);
       let cleanedFeatures = [];
@@ -366,6 +421,27 @@ export default {
       });
       geojson.features = cleanedFeatures;
       return geojson;
+    },
+    getTraveledDistance(geojson) {
+      let accuracyArr = geojson.features.map(
+        (feature) => feature.properties.accuracy
+      );
+      let avgAccuracy =
+        accuracyArr.reduce((partialSum, a) => partialSum + a, 0) /
+        accuracyArr.length;
+      let filteredGeojson = this.denoiseGeojson(geojson, avgAccuracy);
+      let coordinates = filteredGeojson.features.map(
+        (feature) => feature.geometry.coordinates
+      );
+      let totalDistance = 0;
+      coordinates.forEach((coord, i) => {
+        if (i < coordinates.length - 1) {
+          let nextCoord = coordinates[i + 1];
+          let distance = map.distance(coord, nextCoord);
+          totalDistance += distance;
+        }
+      });
+      return { distance: totalDistance, avgAccuracy };
     },
     evaluateDistanceFilterInput() {
       if (!this.filterDistanceInput) {

@@ -4,7 +4,7 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMapMarkerMultipleOutline } from "@mdi/js";
+import { mdiMapMarkerOutline } from "@mdi/js";
 
 export default {
   name: "my-cool-component",
@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      path: mdiMapMarkerMultipleOutline,
+      path: mdiMapMarkerOutline,
     };
   },
 };
