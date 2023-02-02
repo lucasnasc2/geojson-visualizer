@@ -49,12 +49,22 @@
       maxlength="2"
       v-model="filterDistanceInput"
       @blur="evaluateDistanceFilterInput()"
-      class="leaflet-borders onDisabled filter-input"
+      class="leaflet-borders onDisabled mb-2 filter-input"
     />
+    <button @click="openFilePicker" class="leaflet-borders p-2 bg-white hover">
+      <upload-outline size="30"></upload-outline>
+    </button>
   </div>
 
   <div class="inline-flex toolbar-bottom leaflet-borders z-1000 bg-white p-3">
-    <div class="self-center w-full mr-4">
+    <button
+      @click="skipMarker(false)"
+      :disabled="!geojson"
+      class="onDisabled-light p-2 mr-1"
+    >
+      <menu-left-outline size="22" />
+    </button>
+    <div class="flex self-center w-full">
       <input
         :disabled="!geojson"
         type="range"
@@ -65,8 +75,12 @@
         id="myRange"
       />
     </div>
-    <button @click="openFilePicker" class="leaflet-borders p-1 bg-white hover">
-      <upload-outline size="36"></upload-outline>
+    <button
+      @click="skipMarker(true)"
+      :disabled="!geojson"
+      class="onDisabled-light p-2 ml-1"
+    >
+      <menu-right-outline size="22" />
     </button>
   </div>
   <div v-if="bool.infoPopup" class="no-scrollbar popup bg-white">
@@ -74,7 +88,10 @@
       <span class="flex-grow self-center pl-2 text-2xl"
         >{{ geojson.features.length }} points</span
       >
-      <span class="flex-grow self-center pl-2 text-xs">aprx. distance: {{ distanceTraveled.toFixed(2) }}m <br/> avg. accuracy: {{ avgAccuracy.toFixed(2) }}</span>
+      <span class="flex-grow self-center pl-2 text-xs"
+        >aprx. distance: {{ distanceTraveled.toFixed(2) }}m <br />
+        avg. accuracy: {{ avgAccuracy.toFixed(2) }}</span
+      >
       <button @click="toggleInfoPopup()" class="disabled p-1 bg-white hover">
         <close size="36"></close>
       </button>
@@ -123,6 +140,8 @@ import cloneDeep from "lodash/cloneDeep";
 import mapMarkerPath from "./icons/mapMarkerPath.vue";
 import mapMarkerOutline from "./icons/mapMarkerOutline.vue";
 import mapMarkerRadiusOutline from "./icons/mapMarkerRadiusOutline.vue";
+import menuRightOutline from "./icons/menuRightOutline.vue";
+import menuLeftOutline from "./icons/menuLeftOutline.vue";
 
 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let locale = Intl.DateTimeFormat().resolvedOptions().locale;
@@ -175,6 +194,8 @@ export default {
     mapMarkerPath,
     mapMarkerOutline,
     mapMarkerRadiusOutline,
+    menuRightOutline,
+    menuLeftOutline,
   },
   data() {
     return {
@@ -461,6 +482,12 @@ export default {
       const element = document.getElementById("item" + i);
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     },
+    skipMarker(bool) {
+      let end = this.rangeValue == this.geojson.features.length - 1;
+      let start = this.rangeValue == 0;
+      if (bool && !end) this.rangeValue++;
+      if (!bool && !start) this.rangeValue--;
+    },
   },
 };
 </script>
@@ -475,6 +502,9 @@ export default {
 }
 .onDisabled:disabled {
   background-color: #d3d3d3;
+}
+.onDisabled-light:disabled {
+  opacity: 0.4;
 }
 .disabled {
   background-color: #d3d3d3;
