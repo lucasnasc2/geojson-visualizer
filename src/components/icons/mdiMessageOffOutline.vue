@@ -4,17 +4,17 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMapMarkerPath } from "@mdi/js";
+import { mdiMessageOffOutline } from "@mdi/js";
 
 export default {
-  name: "my-cool-component",
+  name: "mdiMessageOffOutline",
 
   components: {
     SvgIcon,
   },
   data() {
     return {
-      path: mdiMapMarkerPath,
+      path: mdiMessageOffOutline,
     };
   },
 };

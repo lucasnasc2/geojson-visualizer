@@ -4,17 +4,17 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiMapMarkerOutline } from "@mdi/js";
+import { mdiCrosshairs } from "@mdi/js";
 
 export default {
-  name: "my-cool-component",
+  name: "mdiCrosshairs",
 
   components: {
     SvgIcon,
   },
   data() {
     return {
-      path: mdiMapMarkerOutline,
+      path: mdiCrosshairs,
     };
   },
 };

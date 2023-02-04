@@ -4,17 +4,17 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiSkipNextOutline } from "@mdi/js";
+import { mdiSkipPreviousOutline } from "@mdi/js";
 
 export default {
-  name: "my-cool-component",
+  name: "mdiSkipPreviousOutline",
 
   components: {
     SvgIcon,
   },
   data() {
     return {
-      path: mdiSkipNextOutline,
+      path: mdiSkipPreviousOutline,
     };
   },
 };

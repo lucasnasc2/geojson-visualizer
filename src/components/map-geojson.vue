@@ -14,7 +14,7 @@
       @click="toggleInfoPopup()"
       class="onDisabled leaflet-borders p-1 mb-2 bg-white hover"
     >
-      <database-marker-outline size="36"></database-marker-outline>
+      <mdi-database-marker-outline size="36" />
     </button>
     <button
       :disabled="!geojson"
@@ -22,26 +22,30 @@
       class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
       :class="{ disabled: !bool.allMarkers }"
     >
-      <map-marker-path size="30"></map-marker-path>
+      <mdi-map-marker-path size="30" />
     </button>
     <button
       :disabled="bool.locating"
       @click="toggleLocationCircle()"
       class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
     >
-      <crosshairs v-if="bool.locating || !bool.location" size="30"></crosshairs>
-      <crosshairs-gps v-else size="30"></crosshairs-gps>
+      <mdi-crosshairs v-if="bool.locating || !bool.location" size="30" />
+      <mdi-crosshairs-gps v-else size="30" />
     </button>
     <button
       :disabled="bool.locating || !bool.location"
       @click="toggleLocationFollow()"
       class="onDisabled leaflet-borders p-2 mb-2 bg-white hover"
     >
-      <map-marker-radius-outline
-        v-if="bool.locationFollow"
-        size="30"
-      ></map-marker-radius-outline>
-      <map-marker-outline v-else size="30"></map-marker-outline>
+      <mdi-map-marker-radius-outline v-if="bool.locationFollow" size="30" />
+      <mdi-map-marker-outline v-else size="30" />
+    </button>
+    <button
+      @click="togglePopups()"
+      class="leaflet-borders p-2 mb-2 bg-white hover"
+    >
+      <mdi-message-outline v-if="bool.autoOpenPopups" size="30" />
+      <mdi-message-off-outline v-else size="30" />
     </button>
     <input
       type="text"
@@ -52,7 +56,7 @@
       class="leaflet-borders onDisabled mb-2 filter-input"
     />
     <button @click="openFilePicker" class="leaflet-borders p-2 bg-white hover">
-      <upload-outline size="30"></upload-outline>
+      <mdi-upload-outline size="30" />
     </button>
   </div>
 
@@ -62,7 +66,7 @@
       :disabled="!geojson"
       class="onDisabled-light p-2 mr-1"
     >
-      <menu-left-outline size="22" />
+      <mdi-skip-previous-outline size="22" />
     </button>
     <div class="flex self-center w-full">
       <input
@@ -80,7 +84,7 @@
       :disabled="!geojson"
       class="onDisabled-light p-2 ml-1"
     >
-      <menu-right-outline size="22" />
+      <mdi-skip-next-outline size="22" />
     </button>
   </div>
   <div v-if="bool.infoPopup" class="no-scrollbar popup bg-white">
@@ -93,13 +97,13 @@
         avg. accuracy: {{ avgAccuracy.toFixed(2) }}</span
       >
       <button @click="toggleInfoPopup()" class="disabled p-1 bg-white hover">
-        <close size="36"></close>
+        <mdi-close size="36"></mdi-close>
       </button>
     </div>
     <div class="pt-9">
       <div
         :class="{ 'bg-gray-100': index != rangeValue }"
-        class="flex flex-row w-full px-4 py-2"
+        class="flex flex-row w-full px-1 py-2"
         v-for="(feature, index) in geojson.features"
         :key="index"
         :id="'item' + index"
@@ -131,17 +135,7 @@
 <script>
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
-import uploadOutline from "./icons/uploadOutline.vue";
-import databaseMarkerOutline from "./icons/databaseMarkerOutline.vue";
-import crosshairsGps from "./icons/crosshairsGps.vue";
-import crosshairs from "./icons/crosshairs.vue";
-import close from "./icons/close.vue";
 import cloneDeep from "lodash/cloneDeep";
-import mapMarkerPath from "./icons/mapMarkerPath.vue";
-import mapMarkerOutline from "./icons/mapMarkerOutline.vue";
-import mapMarkerRadiusOutline from "./icons/mapMarkerRadiusOutline.vue";
-import menuRightOutline from "./icons/menuRightOutline.vue";
-import menuLeftOutline from "./icons/menuLeftOutline.vue";
 
 let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let locale = Intl.DateTimeFormat().resolvedOptions().locale;
@@ -185,23 +179,12 @@ let markerEnd = null;
 let locationCircle = null;
 
 export default {
-  components: {
-    uploadOutline,
-    databaseMarkerOutline,
-    crosshairsGps,
-    crosshairs,
-    close,
-    mapMarkerPath,
-    mapMarkerOutline,
-    mapMarkerRadiusOutline,
-    menuRightOutline,
-    menuLeftOutline,
-  },
   data() {
     return {
       originalGeojson: null,
       geojson: null,
       coordinates: null,
+      distances: null,
       distanceTraveled: null,
       avgAccuracy: null,
       rangeValue: 0,
@@ -213,6 +196,7 @@ export default {
         locating: false,
         infoPopup: false,
         allMarkers: false,
+        autoOpenPopups: true,
       },
     };
   },
@@ -332,7 +316,7 @@ export default {
       let time = dateTime.toLocaleTimeString(locale, {
         timeZone: tz,
       });
-      return `${time}<br/>${date}`;
+      return `Date: ${date}<br/>Time: ${time}<br/>Distance from last point:<br/>${this.distances[i]}m`;
     },
     addStartEndMarkers() {
       let coordStart = this.coordinates[0];
@@ -353,7 +337,8 @@ export default {
         marker.remove();
       }
       let newMarker = L.marker(coord, { icon: icon_marker }).addTo(map);
-      marker = newMarker.bindPopup(this.getPopupInfo(i)).openPopup();
+      marker = newMarker.bindPopup(this.getPopupInfo(i));
+      if (this.bool.autoOpenPopups) marker.openPopup();
     },
     removeMarker() {
       if (!marker) return;
@@ -410,48 +395,54 @@ export default {
       this.changeGeojsonData(geojson);
       this.$refs.fileInput.value = "";
     },
-    changeGeojsonData(geojson) {
-      this.originalGeojson = cloneDeep(geojson);
-      let cleaned = this.denoiseGeojson(geojson, this.filterDistance);
-      this.geojson = cloneDeep(cleaned);
-      let features = cloneDeep(cleaned.features);
+    changeGeojsonData(data) {
+      this.originalGeojson = cloneDeep(data);
+      let { distance, avgAccuracy } = this.getTraveledDistance(data);
+      let { geojson, distances } = this.denoiseGeojson(
+        data,
+        this.filterDistance
+      );
+
+      this.geojson = cloneDeep(geojson);
+      let features = cloneDeep(geojson.features);
       this.coordinates = features.map((feature) =>
         feature.geometry.coordinates.reverse()
       );
-      let travelObject = this.getTraveledDistance(geojson);
-      this.distanceTraveled = travelObject.distance;
-      this.avgAccuracy = travelObject.avgAccuracy;
+      this.distances = distances;
+      this.distanceTraveled = distance;
+      this.avgAccuracy = avgAccuracy;
     },
     denoiseGeojson(data, threshold) {
       let geojson = data;
       let features = cloneDeep(geojson.features);
       let cleanedFeatures = [];
+      let distances = [0];
       features.forEach((feature, i) => {
         let l = features.length - 1;
         let coord = feature.geometry.coordinates;
-        if (i && i != l) {
+        if (i) {
           let oldCoord = features[i - 1].geometry.coordinates;
           let distance = map.distance(oldCoord, coord);
-          let valid = distance > threshold;
+          distances.push(distance.toFixed(2));
+          let valid = distance > threshold && i != l;
           if (valid) {
             cleanedFeatures.push(feature);
           }
-        } else {
-          cleanedFeatures.push(feature);
         }
+        if (!i || i == l) cleanedFeatures.push(feature);
       });
       geojson.features = cleanedFeatures;
-      return geojson;
+      return { geojson, distances };
     },
-    getTraveledDistance(geojson) {
-      let accuracyArr = geojson.features.map(
+    getTraveledDistance(data) {
+      let accuracyArr = data.features.map(
         (feature) => feature.properties.accuracy
       );
       let avgAccuracy =
         accuracyArr.reduce((partialSum, a) => partialSum + a, 0) /
         accuracyArr.length;
-      let filteredGeojson = this.denoiseGeojson(geojson, avgAccuracy);
-      let coordinates = filteredGeojson.features.map(
+      let { geojson } = this.denoiseGeojson(data, avgAccuracy);
+      let coordinates = geojson.features.map(
         (feature) => feature.geometry.coordinates
       );
       let totalDistance = 0;
@@ -477,6 +468,9 @@ export default {
     },
     toggleInfoPopup() {
       this.bool.infoPopup = !this.bool.infoPopup;
+    },
+    togglePopups() {
+      this.bool.autoOpenPopups = !this.bool.autoOpenPopups;
     },
     scrollToItem(i) {
       const element = document.getElementById("item" + i);

@@ -4,17 +4,17 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiUploadOutline } from "@mdi/js";
+import { mdiDatabaseMarkerOutline } from "@mdi/js";
 
 export default {
-  name: "my-cool-component",
+  name: "mdiDatabaseMarkerOutline",
 
   components: {
     SvgIcon,
   },
   data() {
     return {
-      path: mdiUploadOutline,
+      path: mdiDatabaseMarkerOutline,
     };
   },
 };

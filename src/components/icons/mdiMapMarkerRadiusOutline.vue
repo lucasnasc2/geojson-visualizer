@@ -4,17 +4,17 @@
 
 <script>
 import SvgIcon from "@jamescoyle/vue-icon";
-import { mdiClose } from "@mdi/js";
+import { mdiMapMarkerRadiusOutline } from "@mdi/js";
 
 export default {
-  name: "my-cool-component",
+  name: "mdiMapMarkerRadiusOutline",
 
   components: {
     SvgIcon,
   },
   data() {
     return {
-      path: mdiClose,
+      path: mdiMapMarkerRadiusOutline,
     };
   },
 };
